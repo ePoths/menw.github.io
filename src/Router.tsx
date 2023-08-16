@@ -1,20 +1,29 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import World from "./pages/World";
-import Account from "./pages/Account";
-
+import Home from "./pages/Home";
+import Auth from "./pages/Auth";
+import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
   {
-    path: "/world",
-    element: <World />,
+    path: "/Home",
+    element: <Home />,
   },
   {
-    path: "/account",
-    element: <Account />,
+    path: "/Auth",
+    element: <Auth />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/editprofile",
+    element: <EditProfile />,
   },
 ]);
 

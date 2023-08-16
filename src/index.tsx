@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import GlobalStyle from "./css/GlobalStyle";
+import GlobalStyle from "./style/GlobalStyle";
 import { ThemeProvider } from "styled-components";
 import { RouterProvider } from "react-router-dom";
-import { theme } from "./css/Theme";
+import { theme } from "./style/Theme";
 import router from "./Router";
 
 const root = ReactDOM.createRoot(

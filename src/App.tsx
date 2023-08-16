@@ -1,8 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-
+import React, { useState } from "react";
+import { authService } from "./config/Firebase";
+import Auth from "./pages/Auth";
+import Home from "./pages/Home";
 function App() {
-  return <div className="App"></div>;
+  console.log(authService.currentUser);
+
+  const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+  return (
+    <>
+      {isLoggedIn ? <Home /> : <Auth />}
+      <footer>&copy; {new Date().getFullYear()}</footer>
+    </>
+  );
 }
 
 export default App;
