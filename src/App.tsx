@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { authService } from "./config/Firebase";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
+import { onAuthStateChanged } from "firebase/auth";
 function App() {
-  console.log(authService.currentUser);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(authService.currentUser);
+  const [init, setInit] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setInit(true);
+    });
+  }, []);
   return (
     <>
-      {isLoggedIn ? <Home /> : <Auth />}
-      <footer>&copy; {new Date().getFullYear()}</footer>
+      {init ? (
+        <div>
+          {isLoggedIn ? <Home /> : <Auth />}
+          <footer>&copy; {new Date().getFullYear()}</footer>
+        </div>
+      ) : (
+        "Initializing..."
+      )}
     </>
   );
 }
