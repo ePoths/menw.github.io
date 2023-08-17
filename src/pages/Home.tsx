@@ -7,15 +7,15 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null | undefined>();
-  const [myName, setMyName] = useState<string | null | undefined>();
-  const [test, setTest] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [word, setWord] = useState("");
+  const [wordMeaning, setWordMeaning] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
-      if (user?.displayName) {
-        setTest(true);
+      if (user) {
+        setLoading(true);
         setEmail(user?.email);
-        setMyName(user?.displayName);
       } else {
         navigate("/");
       }
@@ -23,7 +23,7 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClick = () => {
+  const Signout = () => {
     signOut(authService)
       .then(() => {
         console.log("Success");
@@ -32,13 +32,49 @@ function Home() {
         console.log(error.message);
       });
   };
+
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      currentTarget: { name, value },
+    } = event;
+    if (name === "word") {
+      setWord(value);
+    } else if (name === "wordMeaning") {
+      setWordMeaning(value);
+    }
+  };
   return (
     <div>
-      {test ? (
-        <div>
-          <p>name : {myName}</p> <p>email : {email}</p>
-          <button onClick={onClick}>Sign out</button>
-        </div>
+      {loading ? (
+        <>
+          <div>
+            <form onSubmit={onSubmit}>
+              <input
+                type="text"
+                name="word"
+                value={word}
+                onChange={onChange}
+                placeholder="Can you write down an English word?"
+                required
+              />
+              <input
+                type="text"
+                name="wordMeaning"
+                value={wordMeaning}
+                onChange={onChange}
+                placeholder="Can you write down the meaning of the English word?"
+                required
+              />
+              <input type="submit" value="EnWordsAndMeaning" />
+            </form>
+            <br />
+          </div>
+          <button onClick={Signout}>Sign out</button>
+        </>
       ) : (
         "Loading..."
       )}
