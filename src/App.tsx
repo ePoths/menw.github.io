@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { authService } from "./config/Firebase";
 import Auth from "./pages/Auth";
-import Home from "./pages/Home";
 import { onAuthStateChanged } from "firebase/auth";
 
 function App() {

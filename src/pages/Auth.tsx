@@ -19,7 +19,6 @@ function Auth() {
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [userProFile, setUserProFile] = useState(false);
 
   const navigate = useNavigate();
 
