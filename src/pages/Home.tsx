@@ -1,11 +1,19 @@
 import * as React from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { authService } from "../config/Firebase";
+import { useState, useEffect } from "react";
+
 function Home() {
-  const onClick = () => {
+  const [email, setEmail] = useState<string | null | undefined>();
+  const [myName, setMyName] = useState<string | null | undefined>();
+
+  useEffect(() => {
     onAuthStateChanged(authService, (user) => {
-      console.log(user?.email);
+      setEmail(user?.email);
     });
+  }, []);
+
+  const onClick = () => {
     signOut(authService)
       .then(() => {
         console.log("Success");
@@ -16,8 +24,12 @@ function Home() {
   };
   return (
     <div>
-      Home
-      <button onClick={onClick}>test</button>
+      name : {myName}
+      <br />
+      email : {email}
+      <br />
+      <br />
+      <button onClick={onClick}>로그아웃</button>
     </div>
   );
 }

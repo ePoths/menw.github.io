@@ -3,9 +3,11 @@ import { authService } from "./config/Firebase";
 import Auth from "./pages/Auth";
 import Home from "./pages/Home";
 import { onAuthStateChanged } from "firebase/auth";
+
 function App() {
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
@@ -16,6 +18,7 @@ function App() {
       setInit(true);
     });
   }, []);
+
   return (
     <>
       {init ? (
