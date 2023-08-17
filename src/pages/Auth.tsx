@@ -1,5 +1,8 @@
 import * as React from "react";
 import { useState } from "react";
+
+import TestStyle from "../style/TestStyle.module.css";
+
 import {
   User,
   createUserWithEmailAndPassword,
@@ -17,8 +20,9 @@ function Auth() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [newAccount, setNewAccount] = useState(true);
+  const [newAccount, setNewAccount] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessageCheck, setErrorMessageCheck] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,6 +33,7 @@ function Auth() {
     const {
       target: { name, value },
     } = event;
+
     if (name === "email") {
       setEmail(value);
     } else if (name === "password") {
@@ -48,7 +53,7 @@ function Auth() {
           navigate("/home");
         })
         .catch((error) => {
-          console.log(error);
+          setErrorMessage(error.message);
         });
     }
   };
@@ -63,7 +68,7 @@ function Auth() {
         })
         .catch((err) => {
           setErrorMessage(err.message);
-          // setNewAccount(false);
+          setErrorMessageCheck(true);
         });
     } else {
       signInWithEmailAndPassword(authService, email, password)
@@ -99,17 +104,23 @@ function Auth() {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <h2>{newAccount ? "Create new account" : "Sign In"}</h2>
+        <h2 className={TestStyle.testh2}>
+          {newAccount ? "Create new account" : "Sign In"}
+        </h2>
+
         {newAccount ? (
-          <input
-            type="text"
-            placeholder="Name"
-            name="Name"
-            value={name}
-            onChange={onChange}
-          />
+          <>
+            <br />
+            <input
+              type="text"
+              placeholder="Name"
+              name="Name"
+              value={name}
+              onChange={onChange}
+            />
+            <br />
+          </>
         ) : null}
-        <br />
         <br />
         <input
           name="email"
@@ -136,9 +147,11 @@ function Auth() {
           value={newAccount ? "Create new account" : "Sign In"}
         />
       </form>
-
       <br />
-      <p>{errorMessage}</p>
+
+      {/* 에러 메세지 표시 */}
+      {errorMessageCheck ? <p>{errorMessage}</p> : null}
+
       <span onClick={toggleAccounBtn}>
         {newAccount ? "Sign In" : "Create new account"}
       </span>

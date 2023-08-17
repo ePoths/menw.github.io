@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { authService } from "./config/Firebase";
-import Auth from "./pages/Auth";
 import { onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import Auth from "./pages/Auth";
+import Home from "./pages/Home";
 
 function App() {
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        setIsLoggedIn(true);
+        navigate("/home");
       } else {
-        setIsLoggedIn(false);
       }
       setInit(true);
     });
@@ -22,7 +24,8 @@ function App() {
     <>
       {init ? (
         <div>
-          {isLoggedIn ? <Auth /> : <Auth />}
+          <Auth />
+          <br />
           <footer>&copy; {new Date().getFullYear()}</footer>
         </div>
       ) : (
