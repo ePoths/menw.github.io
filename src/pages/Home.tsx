@@ -2,14 +2,23 @@ import * as React from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { authService } from "../config/Firebase";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string | null | undefined>();
   const [myName, setMyName] = useState<string | null | undefined>();
+  const [test, setTest] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
-      setEmail(user?.email);
+      if (user?.displayName) {
+        setTest(true);
+        setEmail(user?.email);
+        setMyName(user?.displayName);
+      } else {
+        navigate("/");
+      }
     });
   }, []);
 
@@ -24,12 +33,14 @@ function Home() {
   };
   return (
     <div>
-      name : {myName}
-      <br />
-      email : {email}
-      <br />
-      <br />
-      <button onClick={onClick}>로그아웃</button>
+      {test ? (
+        <div>
+          <p>name : {myName}</p> <p>email : {email}</p>
+          <button onClick={onClick}>Sign out</button>
+        </div>
+      ) : (
+        "Loading..."
+      )}
     </div>
   );
 }

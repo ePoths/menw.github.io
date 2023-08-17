@@ -1,14 +1,17 @@
 import * as React from "react";
 import { useState } from "react";
 import {
+  User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  updateProfile,
 } from "firebase/auth";
 
-import { authService, updateUserProfile } from "../config/Firebase";
+import { authService } from "../config/Firebase";
 import { GoogleAuthProvider } from "firebase/auth";
 import { GithubAuthProvider } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function Auth() {
   const [email, setEmail] = useState("");
@@ -16,6 +19,10 @@ function Auth() {
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [userProFile, setUserProFile] = useState(false);
+
+  const navigate = useNavigate();
+
   const googleProvider = new GoogleAuthProvider();
   const githubProvider = new GithubAuthProvider();
 
@@ -23,11 +30,27 @@ function Auth() {
     const {
       target: { name, value },
     } = event;
-
     if (name === "email") {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
+    } else if (name === "Name") {
+      setName(value);
+    }
+  };
+
+  const updateUserProfile = (name: string) => {
+    if (authService.currentUser) {
+      const user: User = authService.currentUser;
+      updateProfile(user, {
+        displayName: name,
+      })
+        .then((user) => {
+          navigate("/home");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -38,16 +61,16 @@ function Auth() {
       createUserWithEmailAndPassword(authService, email, password)
         .then(() => {
           updateUserProfile(name);
-          setNewAccount(false);
         })
         .catch((err) => {
           setErrorMessage(err.message);
-          setNewAccount(false);
+          // setNewAccount(false);
         });
     } else {
       signInWithEmailAndPassword(authService, email, password)
         .then(() => {
           console.log("Success");
+          navigate("/home");
         })
         .catch((err) => {
           console.log(
@@ -59,6 +82,7 @@ function Auth() {
         });
     }
   };
+
   const toggleAccounBtn = () => {
     setNewAccount((prev) => !prev);
   };
@@ -77,7 +101,17 @@ function Auth() {
     <div>
       <form onSubmit={onSubmit}>
         <h2>{newAccount ? "Create new account" : "Sign In"}</h2>
-
+        {newAccount ? (
+          <input
+            type="text"
+            placeholder="Name"
+            name="Name"
+            value={name}
+            onChange={onChange}
+          />
+        ) : null}
+        <br />
+        <br />
         <input
           name="email"
           type="email"
@@ -86,6 +120,8 @@ function Auth() {
           value={email}
           onChange={onChange}
         />
+        <br />
+        <br />
         <input
           name="password"
           type="password"
@@ -94,16 +130,22 @@ function Auth() {
           value={password}
           onChange={onChange}
         />
+        <br />
+        <br />
         <input
           type="submit"
           value={newAccount ? "Create new account" : "Sign In"}
         />
       </form>
+
+      <br />
       <p>{errorMessage}</p>
+      <span onClick={toggleAccounBtn}>
+        {newAccount ? "Sign In" : "Create new account"}
+      </span>
+      <br />
+      <br />
       <div>
-        <button onClick={toggleAccounBtn}>
-          {newAccount ? "Sign In" : "Create new account"}
-        </button>
         <button onClick={onSociaClick} name="Google">
           Google
         </button>

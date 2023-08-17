@@ -23,7 +23,7 @@ function App() {
     <>
       {init ? (
         <div>
-          {isLoggedIn ? <Home /> : <Auth />}
+          {isLoggedIn ? <Auth /> : <Auth />}
           <footer>&copy; {new Date().getFullYear()}</footer>
         </div>
       ) : (
