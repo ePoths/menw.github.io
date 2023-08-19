@@ -25,7 +25,6 @@ function App() {
         <div>
           {isLoggedIn ? <Home /> : <Auth />}
           <br />
-          <footer>&copy; {new Date().getFullYear()}</footer>
         </div>
       ) : (
         "Initializing..."

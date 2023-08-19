@@ -3,8 +3,15 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { authService, dbService } from "../config/Firebase";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import HomeStyle from "../style/EnWords.module.css";
 
-import { collection, addDoc, getDocs, query } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
 
 function Home() {
   const navigate = useNavigate();
@@ -12,14 +19,25 @@ function Home() {
   const [wordMeaning, setWordMeaning] = useState("");
   const [email, setEmail] = useState<string | null | undefined>();
   const [loading, setLoading] = useState(false);
-  const [Nweets, setNweets] = useState([] as any);
+  const [Nweets, setEnWords] = useState([] as any);
 
   useEffect(() => {
-    nweets();
+    const q = query(
+      collection(dbService, "users"),
+      orderBy("createdAt", "desc")
+    );
+    onSnapshot(q, (snapshot) => {
+      const words = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setEnWords(words);
+    });
+
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setLoading(true);
-        setEmail(user?.email);
+        setEmail(user?.email?.split("@")[0]);
       } else {
         navigate("/");
       }
@@ -27,6 +45,7 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 로그아웃
   const Signout = () => {
     signOut(authService)
       .then(() => {
@@ -37,25 +56,15 @@ function Home() {
       });
   };
 
-  const nweets = async () => {
-    const querySnapshot = await getDocs(collection(dbService, "users"));
-    querySnapshot.forEach((doc) => {
-      const nweetObj = {
-        ...doc.data(),
-        id: doc.id,
-      };
-      setNweets((prev: any) => [nweetObj, ...prev]);
-    });
-  };
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // 생성하기
     try {
-      const docRef = await addDoc(collection(dbService, "users"), {
+      await addDoc(collection(dbService, "users"), {
         enWords: word,
         wordMeaning: wordMeaning,
         createdAt: Date.now(),
       });
-      console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -73,53 +82,60 @@ function Home() {
       setWordMeaning(value);
     }
   };
-  const Testbtn = async () => {};
   return (
     <div>
       {loading ? (
         <>
-          <h2>Hello! {email}</h2>
-          <div>
-            <form onSubmit={onSubmit}>
-              <input
-                type="text"
-                name="word"
-                value={word}
-                onChange={onChange}
-                placeholder="Can you write down an English word?"
-                required
-              />
-              <br />
-              <br />
-              <input
-                type="text"
-                name="wordMeaning"
-                value={wordMeaning}
-                onChange={onChange}
-                placeholder="Can you write down the meaning of the English word?"
-                required
-              />
-              <br />
-              <br />
-              <input type="submit" value="submit" />
-            </form>
-            <br />
-          </div>
-          <button onClick={Signout}>Sign out</button>
-          <button onClick={Testbtn}>testbtn</button>
+          <div className={HomeStyle.containal}>
+            <h2 className={HomeStyle.h2}>Hello! {email}</h2>
 
-          <div>
-            {Nweets.map(
-              (nweets: {
-                id: string;
-                enWords: string;
-                wordMeaning: string;
-              }) => (
-                <div key={nweets.id}>
-                  {nweets.enWords} {nweets.wordMeaning}
-                </div>
-              )
-            )}
+            <div className={HomeStyle.contents}>
+              <form onSubmit={onSubmit}>
+                <input
+                  type="text"
+                  name="word"
+                  value={word}
+                  onChange={onChange}
+                  className={HomeStyle.enWordInput}
+                  placeholder="   단어"
+                  required
+                />
+
+                <input
+                  className={HomeStyle.wordMeaningInput}
+                  type="text"
+                  name="wordMeaning"
+                  value={wordMeaning}
+                  onChange={onChange}
+                  placeholder="   단어 뜻"
+                  required
+                />
+                <input
+                  className={HomeStyle.submit}
+                  type="submit"
+                  value="Submit"
+                />
+              </form>
+            </div>
+            <button onClick={Signout}>Sign out</button>
+
+            <div className={HomeStyle.WordContents}>
+              <hr className={HomeStyle.hrC} />
+              {Nweets.map(
+                (nweets: {
+                  id: string;
+                  enWords: string;
+                  wordMeaning: string;
+                }) => (
+                  <div key={nweets.id} className={HomeStyle.WordsBox}>
+                    <div className={HomeStyle.Words}>
+                      <span>{nweets.enWords}</span>
+                      <span>|{nweets.wordMeaning}</span>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
           </div>
         </>
       ) : (
