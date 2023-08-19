@@ -26,7 +26,7 @@ function Home() {
   const Signout = () => {
     signOut(authService)
       .then(() => {
-        console.log("Success");
+        return;
       })
       .catch((error) => {
         console.log(error.message);
@@ -47,10 +47,12 @@ function Home() {
       setWordMeaning(value);
     }
   };
+
   return (
     <div>
       {loading ? (
         <>
+          <h2>Hello! {email}</h2>
           <div>
             <form onSubmit={onSubmit}>
               <input
@@ -61,6 +63,8 @@ function Home() {
                 placeholder="Can you write down an English word?"
                 required
               />
+              <br />
+              <br />
               <input
                 type="text"
                 name="wordMeaning"
@@ -69,6 +73,8 @@ function Home() {
                 placeholder="Can you write down the meaning of the English word?"
                 required
               />
+              <br />
+              <br />
               <input type="submit" value="EnWordsAndMeaning" />
             </form>
             <br />
