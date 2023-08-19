@@ -129,8 +129,12 @@ function Home() {
                 }) => (
                   <div key={nweets.id} className={HomeStyle.WordsBox}>
                     <div className={HomeStyle.Words}>
-                      <span>{nweets.enWords}</span>
-                      <span>|{nweets.wordMeaning}</span>
+                      <span className={HomeStyle.enWords}>
+                        {nweets.enWords}{" "}
+                      </span>
+                      <span className={HomeStyle.enMeaning}>
+                        | {nweets.wordMeaning}
+                      </span>
                     </div>
                   </div>
                 )
