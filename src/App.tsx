@@ -20,16 +20,7 @@ function App() {
   }, []);
 
   return (
-    <>
-      {init ? (
-        <div>
-          {isLoggedIn ? <Home /> : <Auth />}
-          <br />
-        </div>
-      ) : (
-        "Initializing..."
-      )}
-    </>
+    <>{init ? <>{isLoggedIn ? <Home /> : <Auth />}</> : "Initializing..."}</>
   );
 }
 

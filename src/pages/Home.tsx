@@ -110,17 +110,13 @@ function Home() {
                   placeholder="   단어 뜻"
                   required
                 />
-                <input
-                  className={HomeStyle.submit}
-                  type="submit"
-                  value="Submit"
-                />
+                <input className={HomeStyle.submit} type="submit" value="Add" />
               </form>
             </div>
-            <button onClick={Signout}>Sign out</button>
 
             <div className={HomeStyle.WordContents}>
               <hr className={HomeStyle.hrC} />
+              <h3 className={HomeStyle.h3}>단어</h3>
               {Nweets.map(
                 (nweets: {
                   id: string;
@@ -139,6 +135,11 @@ function Home() {
                   </div>
                 )
               )}
+            </div>
+            <div className={HomeStyle.SignOut}>
+              <button className={HomeStyle.SignOutBtn} onClick={Signout}>
+                Sign out
+              </button>
             </div>
           </div>
         </>

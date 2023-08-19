@@ -119,12 +119,11 @@ function Auth() {
   };
 
   return (
-    <div>
+    <>
       <form onSubmit={onSubmit}>
         <h2 className={TestStyle.testh2}>
           {newAccount ? "Create new account" : "Sign In"}
         </h2>
-
         {newAccount ? (
           <>
             <br />
@@ -182,7 +181,7 @@ function Auth() {
           Github
         </button>
       </div>
-    </div>
+    </>
   );
 }
 
