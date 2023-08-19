@@ -1,0 +1,71 @@
+.containal {
+  width: 100%;
+  height: 100%;
+}
+
+.contents {
+  display: flex;
+  justify-content: center;
+}
+.from {
+}
+
+.title {
+  text-align: center;
+}
+
+.nameInput {
+  display: block;
+  height: 30px;
+  width: 250px;
+  border-radius: 13px;
+  background-color: #252527;
+  border: 1px solid #fc774e;
+  color: white;
+}
+.emailInput {
+  display: block;
+  margin-top: 20px;
+  height: 30px;
+  width: 250px;
+  border-radius: 13px;
+  background-color: #252527;
+  border: 1px solid #ff825c;
+  color: white;
+}
+.passwordInput {
+  display: block;
+  margin-top: 20px;
+  height: 30px;
+  width: 250px;
+  border-radius: 13px;
+  background-color: #252527;
+  border: 1px solid #fd8864;
+  color: white;
+}
+.toggle {
+  display: block;
+  font-size: 13px;
+}
+.errorMessage {
+  display: block;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.submit {
+  display: block;
+  margin-top: 20px;
+  height: 30px;
+  width: 200px;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  margin: 20px auto 10px;
+  background-color: #fc774e;
+}
+.cocialLoginGoogle {
+}
+.cocialLoginGithub {
+}

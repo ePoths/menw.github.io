@@ -21,22 +21,24 @@
 }
 .wordMeaningInput {
   display: block;
-  display: block;
+  margin-top: 20px;
   height: 30px;
   width: 250px;
   border-radius: 13px;
   background-color: #252527;
   border: 1px solid #fc774e;
   color: white;
-  margin-top: 20px;
 }
 .submit {
   display: block;
   margin-top: 20px;
-  width: 250px;
-  border: none;
-  border-radius: 10px;
   height: 30px;
+  width: 200px;
+  border: none;
+  border-radius: 14px;
+  color: white;
+  margin: 20px auto 10px;
+  background-color: #fc774e;
 }
 .hrC {
   width: 500px;

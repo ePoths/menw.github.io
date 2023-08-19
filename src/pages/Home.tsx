@@ -3,8 +3,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { authService, dbService } from "../config/Firebase";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import HomeStyle from "../style/EnWords.module.css";
-
+import HomeStyle from "../style/HomeStyle.module.css";
 import {
   collection,
   addDoc,
