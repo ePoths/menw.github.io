@@ -19,6 +19,19 @@ function Home() {
   const [email, setEmail] = useState<string | null | undefined>();
   const [loading, setLoading] = useState(false);
   const [Nweets, setEnWords] = useState([] as any);
+  const [name, setName] = useState("");
+  const [randomString, setRandomString] = useState("");
+
+  const generateRandomString = (num: number) => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    setRandomString(result);
+  };
 
   useEffect(() => {
     const q = query(
@@ -35,8 +48,8 @@ function Home() {
 
     onAuthStateChanged(authService, (user) => {
       if (user) {
+        setEmail(user.email?.split("@")[0]);
         setLoading(true);
-        setEmail(user?.email?.split("@")[0]);
       } else {
         navigate("/");
       }
@@ -58,6 +71,7 @@ function Home() {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // 생성하기
+    setName(`${window.localStorage.getItem("test")}`);
     try {
       await addDoc(collection(dbService, "users"), {
         enWords: word,
@@ -86,8 +100,7 @@ function Home() {
       {loading ? (
         <>
           <div className={HomeStyle.containal}>
-            <h2 className={HomeStyle.h2}>Hello! {email}</h2>
-
+            <h2 className={HomeStyle.mainTitle}>Hello! {email}</h2>
             <div className={HomeStyle.contents}>
               <form onSubmit={onSubmit}>
                 <input
@@ -99,7 +112,6 @@ function Home() {
                   placeholder="   단어"
                   required
                 />
-
                 <input
                   className={HomeStyle.wordMeaningInput}
                   type="text"
@@ -113,9 +125,9 @@ function Home() {
               </form>
             </div>
 
+            <hr className={HomeStyle.hr} />
             <div className={HomeStyle.WordContents}>
-              <hr className={HomeStyle.hrC} />
-              <h3 className={HomeStyle.h3}>단어</h3>
+              <h3 className={HomeStyle.contentTile}>단어</h3>
               {Nweets.map(
                 (nweets: {
                   id: string;
@@ -127,8 +139,9 @@ function Home() {
                       <span className={HomeStyle.enWords}>
                         {nweets.enWords}{" "}
                       </span>
+                      <span>|</span>
                       <span className={HomeStyle.enMeaning}>
-                        | {nweets.wordMeaning}
+                        {nweets.wordMeaning}
                       </span>
                     </div>
                   </div>

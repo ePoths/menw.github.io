@@ -3,8 +3,10 @@
   height: 100%;
   margin: 0 auto;
 }
-.h2 {
+.mainTitle {
   text-align: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 .contents {
   display: flex;
@@ -12,36 +14,37 @@
 }
 .enWordInput {
   display: block;
-  height: 30px;
   width: 250px;
+  height: 30px;
+  color: white;
   border-radius: 13px;
   border: 1px solid #fc774e;
-  color: white;
   background-color: #252527;
 }
 .wordMeaningInput {
   display: block;
-  margin-top: 20px;
+  border-radius: 13px;
   height: 30px;
   width: 250px;
-  border-radius: 13px;
-  background-color: #252527;
-  border: 1px solid #fc774e;
+  margin-top: 20px;
   color: white;
+  border: 1px solid #fc774e;
+  background-color: #252527;
 }
 .submit {
   display: block;
-  margin-top: 20px;
+  color: white;
+  border: none;
   height: 30px;
   width: 200px;
-  border: none;
+  margin-top: 20px;
   border-radius: 14px;
-  color: white;
   margin: 20px auto 10px;
   background-color: #fc774e;
 }
-.hrC {
+.hr {
   width: 500px;
+  margin: 0 auto;
 }
 
 .WordContents {
@@ -50,31 +53,41 @@
 }
 
 .WordsBox {
-  flex-direction: column;
   margin: 0 auto;
 }
-.h3 {
+.contentTile {
   text-align: center;
+  margin-top: 10px;
   margin-bottom: 0;
 }
 
-.Words {
-  margin-top: 15px;
-  text-align: center;
-  color: black;
-  width: 300px;
-  height: 35px;
-  background-color: white;
-}
 .enWords {
-  position: relative;
-  height: 100%;
-  top: 20%;
+  display: inline-flex;
+  align-items: center;
+  width: 145px;
+  height: 35px;
+  justify-content: right;
 }
 .enMeaning {
-  position: relative;
-  height: 100%;
-  top: 20%;
+  display: inline-flex;
+  align-items: center;
+  width: 150px;
+  height: 35px;
+}
+
+.Words {
+  align-items: center;
+  width: 300px;
+  height: 35px;
+  color: black;
+  margin-top: 15px;
+  background-color: white;
+}
+
+.WordsHR {
+  display: inline;
+  margin: 0;
+  border: 1px solid black;
 }
 
 .SignOut {
@@ -84,18 +97,19 @@
 }
 
 .SignOutBtn {
-  border: 0;
-  color: #ffa8a8;
-  background-color: #252527;
-  border-radius: 7px;
   width: 100px;
   height: 25px;
+  border: 0;
+  border-radius: 7px;
+  color: #ffa8a8;
+  background-color: #252527;
 }
 input:focus {
   outline: none;
 }
+
 @media (max-width: 767px) {
-  .hrC {
+  .hr {
     width: 300px;
     margin-top: 20px;
   }

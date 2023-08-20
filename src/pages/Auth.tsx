@@ -5,20 +5,15 @@ import AuthStyle from "../style/AuthStyle.module.css";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup,
 } from "firebase/auth";
 
 import { authService } from "../config/Firebase";
-import { GoogleAuthProvider } from "firebase/auth";
-import { GithubAuthProvider } from "firebase/auth";
 
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [newAccount, setNewAccount] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const googleProvider = new GoogleAuthProvider();
-  const githubProvider = new GithubAuthProvider();
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -52,17 +47,6 @@ function Auth() {
 
   const toggleAccounBtn = () => {
     setNewAccount((prev) => !prev);
-  };
-
-  const onSociaClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const {
-      currentTarget: { name },
-    } = event;
-    if (name === "Google") {
-      signInWithPopup(authService, googleProvider);
-    } else if (name === "Github") {
-      signInWithPopup(authService, githubProvider);
-    }
   };
 
   const errorMessageAlert = (errorCode: string) => {
@@ -125,22 +109,6 @@ function Auth() {
               value={newAccount ? "Create new account" : "Sign In"}
             />
           </form>
-        </div>
-        <div>
-          <button
-            className={AuthStyle.cocialLoginGoogle}
-            onClick={onSociaClick}
-            name="Google"
-          >
-            Google
-          </button>
-          <button
-            className={AuthStyle.cocialLoginGithub}
-            onClick={onSociaClick}
-            name="Github"
-          >
-            Github
-          </button>
         </div>
       </div>
     </>
