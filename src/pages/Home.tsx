@@ -22,22 +22,12 @@ function Home() {
   const [name, setName] = useState("");
   const [randomString, setRandomString] = useState("");
 
-  const generateRandomString = (num: number) => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let result = "";
-    const charactersLength = characters.length;
-    for (let i = 0; i < num; i++) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    setRandomString(result);
-  };
-
   useEffect(() => {
     const q = query(
       collection(dbService, "users"),
       orderBy("createdAt", "desc")
     );
+
     onSnapshot(q, (snapshot) => {
       const words = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -57,6 +47,17 @@ function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const generateRandomString = (num: number) => {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < num; i++) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    setRandomString(result);
+  };
+
   // 로그아웃
   const Signout = () => {
     signOut(authService)
@@ -71,7 +72,6 @@ function Home() {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // 생성하기
-    setName(`${window.localStorage.getItem("test")}`);
     try {
       await addDoc(collection(dbService, "users"), {
         enWords: word,
