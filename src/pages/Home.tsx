@@ -19,8 +19,6 @@ function Home() {
   const [email, setEmail] = useState<string | null | undefined>();
   const [loading, setLoading] = useState(false);
   const [Nweets, setEnWords] = useState([] as any);
-  const [name, setName] = useState("");
-  const [randomString, setRandomString] = useState("");
 
   useEffect(() => {
     const q = query(
@@ -46,17 +44,6 @@ function Home() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const generateRandomString = (num: number) => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let result = "";
-    const charactersLength = characters.length;
-    for (let i = 0; i < num; i++) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    setRandomString(result);
-  };
 
   // 로그아웃
   const Signout = () => {
